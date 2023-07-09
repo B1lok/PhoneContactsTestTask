@@ -35,7 +35,7 @@ public class SecurityConfig {
          http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests( auth -> {
-                    auth.requestMatchers("/").permitAll();
+                    auth.requestMatchers(AUTH_WHITELIST).permitAll();
                     auth.requestMatchers("/signup").permitAll();
                     auth.requestMatchers("/login").permitAll();
                     auth.anyRequest().authenticated();
@@ -46,6 +46,23 @@ public class SecurityConfig {
         return http.build();
 
     }
+
+
+
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+            // other public endpoints of your API may be appended to this array
+    };
 
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
