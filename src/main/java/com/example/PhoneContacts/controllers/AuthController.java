@@ -25,6 +25,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 public class AuthController {
 
     private final UserService userService;
